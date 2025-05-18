@@ -9,6 +9,6 @@ namespace Forum.Core.Entities
     public class EntityBase :IEntity
     {
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; }
     }
 }

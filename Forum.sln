@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Core", "Forum.Core\Forum.Core.csproj", "{A548D139-3575-45D5-8F48-5ADDC2180280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Core", "Forum.Core\Forum.Core.csproj", "{A548D139-3575-45D5-8F48-5ADDC2180280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Data", "Forum.Data\Forum.Data.csproj", "{940ACEA0-62CF-4238-A922-18ADBED274AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Data", "Forum.Data\Forum.Data.csproj", "{940ACEA0-62CF-4238-A922-18ADBED274AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Entity", "Forum.Entity\Forum.Entity.csproj", "{F00C245D-51BA-4BF7-9256-8D2773965777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Entity", "Forum.Entity\Forum.Entity.csproj", "{F00C245D-51BA-4BF7-9256-8D2773965777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{1AE8C0BE-9B27-4F49-A68C-442C03EC56A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Service", "Service\Forum.Service.csproj", "{1AE8C0BE-9B27-4F49-A68C-442C03EC56A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Api", "Forum.Api\Forum.Api.csproj", "{D97ECA97-CBA5-466B-8E77-3114BCD10992}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Api", "Forum.Api\Forum.Api.csproj", "{D97ECA97-CBA5-466B-8E77-3114BCD10992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
