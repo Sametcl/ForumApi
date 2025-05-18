@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Forum.Core.Entities
 {
-    public class EntityBase :IEntity
+    public class EntityBase :IEntityBase
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }

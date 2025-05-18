@@ -9,6 +9,10 @@ namespace Forum.Entity.Entities
 {
     public class Comment:EntityBase
     {
+        public Comment()
+        {
+            
+        }
         public string Content { get; set; }
 
         public Guid PostId { get; set; }

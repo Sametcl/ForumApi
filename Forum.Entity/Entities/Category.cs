@@ -9,6 +9,10 @@ namespace Forum.Entity.Entities
 {
     public class Category : EntityBase
     {
+        public Category()
+        {
+            
+        }
         public string Name { get; set; }
         public ICollection<Post> Posts { get; set; }
     }

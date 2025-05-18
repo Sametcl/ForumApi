@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Forum.Core.Entities
 {
-    public interface IEntity
+    public interface IEntityBase
     {
     }
 }
