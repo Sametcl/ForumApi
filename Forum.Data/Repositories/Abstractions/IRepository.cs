@@ -11,7 +11,7 @@ namespace Forum.Data.Repositories.Abstractions
     public interface IRepository<T> where T : class , IEntityBase, new()    
     {
         Task AddAsync(T entity);
-        IQueryable<T> GetAllAsync(Expression<Func<T, bool>> predicate=null);
+        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate=null);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(Guid id);
         Task UpdateAsync(T entity);

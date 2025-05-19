@@ -22,7 +22,7 @@ namespace Forum.Data.Repositories.Concretes
         public async Task AddAsync(T entity) => await Table.AddAsync(entity);
         public async Task DeleteAsync(T entity) => await Task.Run(() => Table.Remove(entity));
         public async Task UpdateAsync(T entity) => await Task.Run(() => Table.Update(entity));
-        public IQueryable<T> GetAllAsync(Expression<Func<T, bool>> predicate = null)
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = Table;
 

@@ -1,8 +1,10 @@
 using Forum.Data;
+using Forum.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddData(builder.Configuration);
+builder.Services.AddService();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

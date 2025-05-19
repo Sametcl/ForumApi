@@ -10,4 +10,9 @@
     <ProjectReference Include="..\Forum.Core\Forum.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Comments\" />
+    <Folder Include="DTOs\Posts\" />
+  </ItemGroup>
+
 </Project>
