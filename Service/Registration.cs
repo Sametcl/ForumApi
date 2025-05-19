@@ -1,6 +1,7 @@
 ﻿using Forum.Service.Services.Abstraction;
 using Forum.Service.Services.Concrete;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Forum.Service
 {
@@ -8,6 +9,8 @@ namespace Forum.Service
     {
         public static IServiceCollection AddService(this IServiceCollection services)
         {
+            var assembly = Assembly.GetExecutingAssembly();
+            services.AddAutoMapper(assembly);
             services.AddScoped<ICategoryService ,CategoryService>();
             return services;
         }

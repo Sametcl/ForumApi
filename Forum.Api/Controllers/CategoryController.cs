@@ -16,21 +16,61 @@ namespace Forum.Api.Controllers
             this.categoryService = categoryService;
         }
 
+        [HttpGet]   
+        public async Task<IActionResult> GetAllCategories()
+        {
+            try
+            {
+                var result = await categoryService.GetAllCategories();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Bir hata olustu {ex.Message}");
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryAddDto categoryAddDto)
         {
             try
             {
-
                 await categoryService.CreateCategoryAsync(categoryAddDto);
                 return Ok("Kategori olusturuldu");
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+            try
+            {
+                await categoryService.DeleteCategoryAsync(id);
+                return Ok("Silme islemi basarili");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Bir hata olustu {ex.Message}");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(CategoryUpdateDto categoryUpdateDto)
+        {
+            try
+            {
+                await categoryService.UpdateCategoryAsync(categoryUpdateDto);
+                return Ok("guncelleme islemi basarili");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Bir hata olustu {ex.Message}");
             }
         }
     }

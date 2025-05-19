@@ -1,7 +1,9 @@
-﻿using Forum.Data.UnitOfWorks;
+﻿using AutoMapper;
+using Forum.Data.UnitOfWorks;
 using Forum.Entity.DTOs.Categories;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,44 +15,56 @@ namespace Forum.Service.Services.Concrete
     public class CategoryService : ICategoryService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public CategoryService(IUnitOfWork unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
         public async Task CreateCategoryAsync(CategoryAddDto createCategoryDto)
         {
             if (createCategoryDto is not null)
             {
-                Category category = new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = createCategoryDto.Name,
-                    CreatedDate = DateTime.UtcNow,
-                };
-                await unitOfWork.GetRepository<Category>().AddAsync(category);
+                Category map = mapper.Map<Category>(createCategoryDto);
+                await unitOfWork.GetRepository<Category>().AddAsync(map);
                 await unitOfWork.SaveAsync();
             }
         }
 
-        public Task DeleteCategoryAsync(Guid id)
+        public async Task DeleteCategoryAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var deleteCategory = await unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == id);
+            await unitOfWork.GetRepository<Category>().DeleteAsync(deleteCategory);
+            await unitOfWork.SaveAsync();
         }
 
-        public Task<List<CategoryResultDto>> GetAllCategories()
+        public async Task<List<CategoryResultDto>> GetAllCategories()
         {
-            throw new NotImplementedException();
+
+            List<Category> categories = await unitOfWork.GetRepository<Category>().GetAll().ToListAsync();
+            List<CategoryResultDto> map = mapper.Map<List<CategoryResultDto>>(categories);
+            return map;
         }
 
-        public Task<CategoryResultDto> GetCategoryByGuid(Guid id)
+        public async Task<CategoryResultDto> GetCategoryByGuid(Guid id)
         {
-            throw new NotImplementedException();
+            Category category = await unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == id);
+
+            if (category is null)
+                throw new Exception("Kategori bulunamadı.");
+
+            return mapper.Map<CategoryResultDto>(category);
         }
 
-        public Task UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto)
+        public async Task UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto)
         {
-            throw new NotImplementedException();
+            Category category = await unitOfWork.GetRepository<Category>().GetByIdAsync(categoryUpdateDto.Id);
+            if (category == null)
+                throw new Exception("Kategori bulunamadı.");
+            mapper.Map(categoryUpdateDto,category);
+            await unitOfWork.GetRepository<Category>().UpdateAsync(category);
+            await unitOfWork.SaveAsync();
         }
     }
 }

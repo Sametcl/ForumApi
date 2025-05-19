@@ -1,4 +1,5 @@
-﻿using Forum.Entity.Entities;
+﻿using Forum.Entity.DTOs.Posts;
+using Forum.Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,5 @@ namespace Forum.Entity.DTOs.Categories
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Post> Posts { get; set; }
     }
 }
