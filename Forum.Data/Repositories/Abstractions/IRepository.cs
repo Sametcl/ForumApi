@@ -12,7 +12,7 @@ namespace Forum.Data.Repositories.Abstractions
     {
         Task AddAsync(T entity);
         IQueryable<T> GetAll(Expression<Func<T, bool>> predicate=null);
-        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetByIdAsync(Guid id);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

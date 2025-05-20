@@ -16,7 +16,7 @@ namespace Forum.Api.Controllers
             this.categoryService = categoryService;
         }
 
-        [HttpGet]   
+        [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
             try
@@ -26,6 +26,21 @@ namespace Forum.Api.Controllers
             }
             catch (Exception ex)
             {
+                return StatusCode(500, $"Bir hata olustu {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCategoryByGuid(Guid id)
+        {
+            try
+            {
+                var category = await categoryService.GetCategoryByGuid(id);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+
                 return StatusCode(500, $"Bir hata olustu {ex.Message}");
             }
         }
@@ -45,7 +60,7 @@ namespace Forum.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
             try

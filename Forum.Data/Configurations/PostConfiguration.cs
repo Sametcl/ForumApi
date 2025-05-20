@@ -40,8 +40,8 @@ namespace Forum.Data.Configurations
             new Post
             {
                 Id = Guid.Parse("810710C9-D2A7-418E-A4A5-48EFFC80C4DF"),
-                Title = "RDR2 vs GOW",
-                Content = "Etiam id velit feugiat, scelerisque velit a, scelerisque nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer dignissim risus non" +
+                Title = "aRDR2 vs GOW",
+                Content = "aEtiam id velit feugiat, scelerisque velit a, scelerisque nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer dignissim risus non" +
                 " nibh scelerisque, sit amet tincidunt sapien rutrum.Integer a ipsum vitae urna varius egestas. Integer laoreet, sapien eget vehicula vehicula, odio lorem scelerisque magna, nec g" +
                 "ravida libero nulla eget risus. Nulla facilisi. Donec at magna ut nulla pharetra cursus. Curabitur auctor, tellus in congue vestibulum, lacus lacus convallis justo, at fermentum libero felis n" +
                 "ec ligula.Phasellus ac eros at urna condimentum lacinia. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed bibendum, sapien a venenatis fermen" +

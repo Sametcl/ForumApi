@@ -12,6 +12,7 @@ namespace Forum.Service
             var assembly = Assembly.GetExecutingAssembly();
             services.AddAutoMapper(assembly);
             services.AddScoped<ICategoryService ,CategoryService>();
+            services.AddScoped<IPostService ,PostService>();
             return services;
         }
     }

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="AutoMapper\Comments\" />
-    <Folder Include="AutoMapper\Posts\" />
   </ItemGroup>
 
   <ItemGroup>

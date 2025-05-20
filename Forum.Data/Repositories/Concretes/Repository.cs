@@ -33,10 +33,17 @@ namespace Forum.Data.Repositories.Concretes
             return query;
 
         }
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate , params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = Table;
             query = query.Where(predicate);
+            if (includeProperties.Any())
+            {
+                foreach (var item in includeProperties)
+                {
+                    query = query.Include(item);
+                }
+            }
             return await query.SingleOrDefaultAsync();
         }
         public async Task<T> GetByIdAsync(Guid id) 
