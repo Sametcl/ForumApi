@@ -4,11 +4,6 @@ using Forum.Entity.DTOs.Categories;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.Service.Services.Concrete
 {
