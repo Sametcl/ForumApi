@@ -13,6 +13,7 @@ namespace Forum.Service
             services.AddAutoMapper(assembly);
             services.AddScoped<ICategoryService ,CategoryService>();
             services.AddScoped<IPostService ,PostService>();
+            services.AddScoped<ICommentService ,CommentService>();
             return services;
         }
     }

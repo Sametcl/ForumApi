@@ -91,5 +91,19 @@ namespace Forum.Api.Controllers
                 return StatusCode(500, $"bir hata olustu ={ex.Message}");
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetPostsByCategoryId(Guid categoryId)
+        {
+            try
+            {
+                var posts = await postService.GetPostsByCategoryIdAsync(categoryId);
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Bir hata oluştu: {ex.Message}");
+            }
+        }
+
     }
 }

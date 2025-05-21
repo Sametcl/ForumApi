@@ -1,3 +1,4 @@
+using Forum.Entity.DTOs.Comments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +9,9 @@ namespace Forum.Service.Services.Abstraction
 {
     public interface ICommentService
     {
+        Task CreateCommentAsync(CommentCreateDto dto);
+        Task DeleteCommentAsync(Guid id);
+        Task UpdateCommentAsync(CommentUpdateDto commentUpdateDto);
+        Task<List<CommentResultDto>> GetCommentsByPostIdAsync(Guid postId);
     }
 }

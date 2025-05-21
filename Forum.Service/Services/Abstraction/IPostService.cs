@@ -10,7 +10,7 @@ namespace Forum.Service.Services.Abstraction
     public interface IPostService
     {
         Task<List<PostResultDto>> GetAllPostsAsync();
-        Task<PostResultDto> GetPostByGuidAsync(Guid id);
+        Task<PostDetailDto> GetPostByGuidAsync(Guid id);
         Task DeletePostAsync (Guid id);
         Task UpdatePostAsync(PostUpdateDto postUpdateDto);
         Task CreatePostAsync(PostCreateDto postCreateDto);

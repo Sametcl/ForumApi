@@ -28,19 +28,25 @@ namespace Forum.Service.Services.Concrete
             List<Post> posts = await unitOfWork.GetRepository<Post>().GetAll().Include(x => x.Category).ToListAsync();
             return mapper.Map<List<PostResultDto>>(posts);
         }
-        public async Task<PostResultDto> GetPostByGuidAsync(Guid id)
+        public async Task<PostDetailDto> GetPostByGuidAsync(Guid id)
         {
-            Post? post = await unitOfWork.GetRepository<Post>().GetAsync(x => x.Id == id, i => i.Category);
+            Post? post = await unitOfWork.GetRepository<Post>().GetAsync(x => x.Id == id, i => i.Category, x => x.Comments);
             if (post is null)
             {
                 throw new Exception("Post bulunamadı.");
             }
-            return mapper.Map<PostResultDto>(post);
+            return mapper.Map<PostDetailDto>(post);
         }
 
-        public Task<List<PostResultDto>> GetPostsByCategoryIdAsync(Guid categoryId)
+        public async Task<List<PostResultDto>> GetPostsByCategoryIdAsync(Guid categoryId)
         {
-            throw new NotImplementedException();
+            var posts = await unitOfWork
+                .GetRepository<Post>()
+                .GetAll(p => p.CategoryId == categoryId)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+            return mapper.Map<List<PostResultDto>>(posts);
         }
 
 
@@ -62,8 +68,6 @@ namespace Forum.Service.Services.Concrete
             await unitOfWork.SaveAsync();
         }
 
-
-
         public async Task UpdatePostAsync(PostUpdateDto postUpdateDto)
         {
             var post = await unitOfWork.GetRepository<Post>().GetAsync(x => x.Id == postUpdateDto.Id, c => c.Category);
@@ -73,7 +77,7 @@ namespace Forum.Service.Services.Concrete
                 throw new Exception("Secilen kategori bulunamadi.");
             if (post is null)
                 throw new Exception("Post bulunamadi");
-            
+
             mapper.Map(postUpdateDto, post);
             await unitOfWork.GetRepository<Post>().UpdateAsync(post);
             await unitOfWork.SaveAsync();

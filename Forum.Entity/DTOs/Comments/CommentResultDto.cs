@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forum.Core.Entities
+namespace Forum.Entity.DTOs.Comments
 {
-    public class EntityBase :IEntityBase
+    public class CommentResultDto
     {
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; set; }= DateTime.UtcNow;
+        public string Content { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

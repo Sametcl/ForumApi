@@ -16,6 +16,7 @@ namespace Forum.Service.AutoMapper.Posts
             CreateMap<Post, PostResultDto>().ReverseMap();
             CreateMap<Post, PostUpdateDto>().ReverseMap();
             CreateMap<Post, PostCreateDto>().ReverseMap();
+            CreateMap<Post, PostDetailDto>().ReverseMap();
         }
     }
 }
