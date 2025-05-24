@@ -48,15 +48,8 @@ namespace Forum.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryAddDto categoryAddDto)
         {
-            try
-            {
                 await categoryService.CreateCategoryAsync(categoryAddDto);
                 return Ok("Kategori olusturuldu");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            }
         }
 
 

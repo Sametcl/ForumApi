@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Forum.Data.UnitOfWorks;
 using Forum.Entity.DTOs.Categories;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Errors.Model;
 
 namespace Forum.Service.Services.Concrete
 {
@@ -19,12 +21,22 @@ namespace Forum.Service.Services.Concrete
         }
         public async Task CreateCategoryAsync(CategoryAddDto createCategoryDto)
         {
-            if (createCategoryDto is not null)
-            {
-                Category map = mapper.Map<Category>(createCategoryDto);
-                await unitOfWork.GetRepository<Category>().AddAsync(map);
-                await unitOfWork.SaveAsync();
-            }
+      
+            if (createCategoryDto == null)                         
+                throw new BadRequestException("Kategori verisi boş olamaz.");
+
+            if (string.IsNullOrWhiteSpace(createCategoryDto.Name))
+                throw new ValidationException("Kategori adı boş olamaz.");
+
+            var existingCategory = await unitOfWork.GetRepository<Category>()
+                .GetAsync(c => c.Name.ToLower() == createCategoryDto.Name.ToLower());
+
+            if (existingCategory != null)
+                throw new BadRequestException("Bu kategori zaten mevcut.");
+
+            Category map = mapper.Map<Category>(createCategoryDto);
+            await unitOfWork.GetRepository<Category>().AddAsync(map);
+            await unitOfWork.SaveAsync();
         }
 
         public async Task DeleteCategoryAsync(Guid id)
@@ -57,7 +69,7 @@ namespace Forum.Service.Services.Concrete
             Category category = await unitOfWork.GetRepository<Category>().GetByIdAsync(categoryUpdateDto.Id);
             if (category == null)
                 throw new Exception("Kategori bulunamadı.");
-            mapper.Map(categoryUpdateDto,category);
+            mapper.Map(categoryUpdateDto, category);
             await unitOfWork.GetRepository<Category>().UpdateAsync(category);
             await unitOfWork.SaveAsync();
         }
