@@ -1,4 +1,5 @@
-using Forum.Entity.DTOs.Categories;
+
+using Forum.Core.DTOs.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

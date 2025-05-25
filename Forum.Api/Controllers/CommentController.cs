@@ -1,4 +1,4 @@
-﻿using Forum.Entity.DTOs.Comments;
+﻿using Forum.Core.DTOs.Comments;
 using Forum.Service.Services.Abstraction;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-using Forum.Entity.DTOs.Comments;
+using Forum.Core.DTOs.Comments;
 using System;
 using System.Collections.Generic;
 using System.Linq;

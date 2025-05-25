@@ -1,10 +1,9 @@
-﻿using Forum.Core.Exceptions;
+﻿using FluentValidation;
+using Forum.Core.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Forum.Core
 {
@@ -12,7 +11,13 @@ namespace Forum.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
+            var assembly = Assembly.GetExecutingAssembly();
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.AddTransient<ExceptionMiddleware>();
+            services.AddValidatorsFromAssembly(assembly);
             return services;
         }
     }

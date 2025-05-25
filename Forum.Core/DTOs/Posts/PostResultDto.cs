@@ -1,13 +1,11 @@
-﻿using Forum.Entity.DTOs.Categories;
-using Forum.Entity.DTOs.Comments;
-using Forum.Entity.Entities;
+﻿using Forum.Core.DTOs.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forum.Entity.DTOs.Posts
+namespace Forum.Core.DTOs.Posts
 {
     public class PostResultDto
     {

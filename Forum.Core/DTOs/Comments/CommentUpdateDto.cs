@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forum.Entity.DTOs.Comments
+namespace Forum.Core.DTOs.Comments
 {
     public class CommentUpdateDto
     {

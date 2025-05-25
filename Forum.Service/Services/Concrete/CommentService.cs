@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Forum.Data.UnitOfWorks;
-using Forum.Entity.DTOs.Comments;
-using Forum.Entity.DTOs.Posts;
+using Forum.Core.DTOs.Comments;
+using Forum.Core.DTOs.Posts;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;

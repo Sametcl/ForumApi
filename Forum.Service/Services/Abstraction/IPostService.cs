@@ -1,4 +1,4 @@
-using Forum.Entity.DTOs.Posts;
+using Forum.Core.DTOs.Posts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

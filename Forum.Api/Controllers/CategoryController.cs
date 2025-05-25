@@ -1,4 +1,4 @@
-﻿using Forum.Entity.DTOs.Categories;
+﻿using Forum.Core.DTOs.Categories;
 using Forum.Service.Services.Abstraction;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -71,15 +71,8 @@ namespace Forum.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(CategoryUpdateDto categoryUpdateDto)
         {
-            try
-            {
                 await categoryService.UpdateCategoryAsync(categoryUpdateDto);
                 return Ok("guncelleme islemi basarili");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            }
         }
     }
 }

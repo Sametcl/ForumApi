@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forum.Entity.DTOs.Comments
+namespace Forum.Core.DTOs.Posts
 {
-    public class CommentResultDto
+    public class PostUpdateDto
     {
         public Guid Id { get; set; }
+        public string Title { get; set; }
         public string Content { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }

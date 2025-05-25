@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Forum.Entity.DTOs.Posts;
+using Forum.Core.DTOs.Posts;
 using Forum.Entity.Entities;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Forum.Entity.DTOs.Comments;
+using Forum.Core.DTOs.Comments;
 using Forum.Entity.Entities;
 using System;
 using System.Collections.Generic;

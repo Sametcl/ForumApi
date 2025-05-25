@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
+using Forum.Core.DTOs.Posts;
 using Forum.Data.UnitOfWorks;
-using Forum.Entity.DTOs.Posts;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.Service.Services.Concrete
 {

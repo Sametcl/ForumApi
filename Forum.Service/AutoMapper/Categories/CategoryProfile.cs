@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Forum.Entity.DTOs.Categories;
+using Forum.Core.DTOs.Categories;
 using Forum.Entity.Entities;
 using System;
 using System.Collections.Generic;
