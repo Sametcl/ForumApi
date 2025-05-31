@@ -56,7 +56,7 @@ namespace Forum.Core.Exceptions
           {
               BadRequestException => StatusCodes.Status400BadRequest,
               NotFoundException => StatusCodes.Status404NotFound,
-              ValidationException => StatusCodes.Status400BadRequest,
+              FluentValidation.ValidationException => StatusCodes.Status400BadRequest,
               _ => StatusCodes.Status500InternalServerError,
           };
     }

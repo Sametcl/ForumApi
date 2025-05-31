@@ -23,13 +23,6 @@ namespace Forum.Service.Services.Concrete
         }
         public async Task CreateCategoryAsync(CategoryAddDto createCategoryDto)
         {
-
-            var validator = new CategoryAddDtoValidator();
-            var result = validator.Validate(createCategoryDto);
-            if (!result.IsValid)
-            {
-                throw new ValidationException(result.Errors);
-            }
             Category map = mapper.Map<Category>(createCategoryDto);
             await unitOfWork.GetRepository<Category>().AddAsync(map);
             await unitOfWork.SaveAsync();
@@ -62,13 +55,6 @@ namespace Forum.Service.Services.Concrete
 
         public async Task UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto)
         {
-
-            var validator = new CategoryUpdateDtoValidator();
-            var result = validator.Validate(categoryUpdateDto);
-            if (!result.IsValid)
-            {
-                throw new ValidationException(result.Errors);
-            }
 
             Category category = await unitOfWork.GetRepository<Category>().GetByIdAsync(categoryUpdateDto.Id);
             if (category == null)
