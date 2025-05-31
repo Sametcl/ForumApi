@@ -1,6 +1,5 @@
 ﻿using Forum.Core.DTOs.Comments;
 using Forum.Service.Services.Abstraction;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers
@@ -19,59 +18,31 @@ namespace Forum.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateComment(CommentCreateDto commentCreateDto)
         {
-            try
-            {
-                await commentService.CreateCommentAsync(commentCreateDto);
-                return Ok("Yorum basarili bir sekilde eklendi");
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500,$"Bir hata olustu {ex.Message}");
-            }
+            await commentService.CreateCommentAsync(commentCreateDto);
+            return Ok("Yorum basarili bir sekilde eklendi");
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCommentsByPostId(Guid postId)
         {
-            try
-            {
-                var result = await commentService.GetCommentsByPostIdAsync(postId);
-                return Ok(result);
-            }
-            catch (Exception ex )
-            {
-                return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            }
+            var result = await commentService.GetCommentsByPostIdAsync(postId);
+            return Ok(result);
         }
 
 
         [HttpPost]
         public async Task<IActionResult> DeleteComment(Guid id)
         {
-            try
-            {
-                await commentService.DeleteCommentAsync(id);
-                return Ok("Yorum silme islemi basarili");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            }
+            await commentService.DeleteCommentAsync(id);
+            return Ok("Yorum silme islemi basarili");
+
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateComment(CommentUpdateDto commentUpdateDto)
         {
-            try
-            {
-                await commentService.UpdateCommentAsync(commentUpdateDto);
-                return Ok("Yorum guncelleme islemi basarili");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Bir hata olustu {ex.Message}");
-            }
+            await commentService.UpdateCommentAsync(commentUpdateDto);
+            return Ok("Yorum guncelleme islemi basarili");
         }
     }
 }
