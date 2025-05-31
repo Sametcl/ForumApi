@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Forum.Core.DTOs.Posts;
+using Forum.Core.Exceptions.CustomExceptions;
 using Forum.Data.UnitOfWorks;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Forum.Service.Services.Concrete
 {
@@ -28,7 +30,7 @@ namespace Forum.Service.Services.Concrete
             Post? post = await unitOfWork.GetRepository<Post>().GetAsync(x => x.Id == id, i => i.Category, x => x.Comments);
             if (post is null)
             {
-                throw new Exception("Post bulunamadı.");
+                throw new NotFoundException("Post bulunamadı.");
             }
             return mapper.Map<PostDetailDto>(post);
         }
@@ -47,6 +49,10 @@ namespace Forum.Service.Services.Concrete
 
         public async Task CreatePostAsync(PostCreateDto postCreateDto)
         {
+
+            var category = await unitOfWork.GetRepository<Category>().GetByIdAsync(postCreateDto.CategoryId);
+            if (category is null)
+                throw new NotFoundException("Secilen kategori bulunamadi.");
             var map = mapper.Map<Post>(postCreateDto);
             await unitOfWork.GetRepository<Post>().AddAsync(map);
             await unitOfWork.SaveAsync();
@@ -57,7 +63,7 @@ namespace Forum.Service.Services.Concrete
             var post = await unitOfWork.GetRepository<Post>().GetAsync(x => x.Id == id);
             if (post is null)
             {
-                throw new Exception("Post bulunamadi");
+                throw new NotFoundException("Post bulunamadi");
             }
             await unitOfWork.GetRepository<Post>().DeleteAsync(post);
             await unitOfWork.SaveAsync();
@@ -69,9 +75,9 @@ namespace Forum.Service.Services.Concrete
             var category = await unitOfWork.GetRepository<Category>().GetByIdAsync(postUpdateDto.CategoryId);
 
             if (category is null)
-                throw new Exception("Secilen kategori bulunamadi.");
+                throw new NotFoundException("Secilen kategori bulunamadi.");
             if (post is null)
-                throw new Exception("Post bulunamadi");
+                throw new NotFoundException("Post bulunamadi");
 
             mapper.Map(postUpdateDto, post);
             await unitOfWork.GetRepository<Post>().UpdateAsync(post);

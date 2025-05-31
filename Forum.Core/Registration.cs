@@ -14,10 +14,6 @@ namespace Forum.Core
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            //services.Configure<ApiBehaviorOptions>(options =>
-            //{
-            //    options.SuppressModelStateInvalidFilter = true;
-            //});
 
             services.AddFluentValidationAutoValidation(); 
             services.AddValidatorsFromAssemblyContaining<CategoryUpdateDtoValidator>();

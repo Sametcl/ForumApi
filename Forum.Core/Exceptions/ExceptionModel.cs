@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace Forum.Core.Exceptions
 {
     public class ExceptionModel

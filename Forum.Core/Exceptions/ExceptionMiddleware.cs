@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
+using Forum.Core.Exceptions.CustomExceptions;
 using Microsoft.AspNetCore.Http;
-using SendGrid.Helpers.Errors.Model;
 using System.Text.Json;
+
 
 namespace Forum.Core.Exceptions
 {

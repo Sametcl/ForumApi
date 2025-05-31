@@ -19,90 +19,43 @@ namespace Forum.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPosts()
         {
-            try
-            {
-                var result = await postService.GetAllPostsAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, $"bir hata olustu{ex.Message}");
-            }
+            var result = await postService.GetAllPostsAsync();
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPostByGuid(Guid id)
         {
-            try
-            {
-                var result = await postService.GetPostByGuidAsync(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, $"bir hata olustu{ ex.Message}");
-            }
+            var result = await postService.GetPostByGuidAsync(id);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostCreateDto postCreateDto)
         {
-            try
-            {
-                await postService.CreatePostAsync(postCreateDto);
-                return Ok("Post basarili bir sekilde eklendi");
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, $"bir hata olustu{ex.Message}");
-            }
+            await postService.CreatePostAsync(postCreateDto);
+            return Ok("Post basarili bir sekilde eklendi");
         }
 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(Guid id)
         {
-            try
-            {
-                await postService.DeletePostAsync(id);
-                return Ok("Post basarili bir sekilde silindi");
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, $"bir hata olustu{ex.Message}");
-            }
+            await postService.DeletePostAsync(id);
+            return Ok("Post basarili bir sekilde silindi");
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdatePost(PostUpdateDto postUpdateDto)
         {
-            try
-            {
-                await postService.UpdatePostAsync(postUpdateDto);
-                return Ok("Post basarili bir sekilde guncellendi");
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, $"bir hata olustu ={ex.Message}");
-            }
+            await postService.UpdatePostAsync(postUpdateDto);
+            return Ok("Post basarili bir sekilde guncellendi");
         }
         [HttpGet]
         public async Task<IActionResult> GetPostsByCategoryId(Guid categoryId)
         {
-            try
-            {
-                var posts = await postService.GetPostsByCategoryIdAsync(categoryId);
-                return Ok(posts);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Bir hata oluştu: {ex.Message}");
-            }
+            var posts = await postService.GetPostsByCategoryIdAsync(categoryId);
+            return Ok(posts);
         }
 
     }

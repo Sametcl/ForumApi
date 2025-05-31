@@ -13,8 +13,8 @@ namespace Forum.Core.Validators.Category
         public CategoryUpdateDtoValidator()
         {
             RuleFor(x => x.Name)
-           .NotEmpty().WithMessage("Kategori adı boş olamaz.")
-           .MinimumLength(3).WithMessage("En az 3 karakter olmalı.");
+           .NotEmpty().WithMessage("Kategori adı boş olamaz.").Length(3,1200)
+           .MinimumLength(3).MaximumLength(1200).WithMessage("En az 3 karakter olmalı.");
         }
     }
 }

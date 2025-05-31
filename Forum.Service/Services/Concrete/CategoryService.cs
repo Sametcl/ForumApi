@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Forum.Core.DTOs.Categories;
-using Forum.Core.Validators.Category;
+using Forum.Core.Exceptions.CustomExceptions;
 using Forum.Data.UnitOfWorks;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
@@ -13,13 +12,11 @@ namespace Forum.Service.Services.Concrete
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-       
 
         public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            
         }
         public async Task CreateCategoryAsync(CategoryAddDto createCategoryDto)
         {
@@ -31,13 +28,15 @@ namespace Forum.Service.Services.Concrete
         public async Task DeleteCategoryAsync(Guid id)
         {
             var deleteCategory = await unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == id);
+            if (deleteCategory is null)
+                throw new NotFoundException("Kategori bulunamadi");
+
             await unitOfWork.GetRepository<Category>().DeleteAsync(deleteCategory);
             await unitOfWork.SaveAsync();
         }
 
         public async Task<List<CategoryResultDto>> GetAllCategories()
         {
-
             List<Category> categories = await unitOfWork.GetRepository<Category>().GetAll().ToListAsync();
             List<CategoryResultDto> map = mapper.Map<List<CategoryResultDto>>(categories);
             return map;
@@ -48,7 +47,7 @@ namespace Forum.Service.Services.Concrete
             Category category = await unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == id);
 
             if (category is null)
-                throw new Exception("Kategori bulunamadı.");
+                throw new NotFoundException("Kategori bulunamadi");
 
             return mapper.Map<CategoryResultDto>(category);
         }
@@ -58,7 +57,7 @@ namespace Forum.Service.Services.Concrete
 
             Category category = await unitOfWork.GetRepository<Category>().GetByIdAsync(categoryUpdateDto.Id);
             if (category == null)
-                throw new Exception("Kategori bulunamadı.");
+                throw new NotFoundException("Kategori bulunamadi");
             mapper.Map(categoryUpdateDto, category);
             await unitOfWork.GetRepository<Category>().UpdateAsync(category);
             await unitOfWork.SaveAsync();
