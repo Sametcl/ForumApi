@@ -14,6 +14,7 @@ namespace Forum.Service
             services.AddScoped<ICategoryService ,CategoryService>();
             services.AddScoped<IPostService ,PostService>();
             services.AddScoped<ICommentService ,CommentService>();
+            services.AddScoped<IAuthService ,AuthService>();
             return services;
         }
     }

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Forum.Entity.Entities;
-using System.Reflection.Emit;
+﻿using Forum.Entity.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 namespace Forum.Data.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser,AppRole,Guid>
     {
         public AppDbContext()
         {
@@ -14,9 +14,9 @@ namespace Forum.Data.Context
         {
         }
 
-        DbSet<Category> Categories { get; set; }
-        DbSet<Post> Posts { get; set; }
-        DbSet<Comment> Comments { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

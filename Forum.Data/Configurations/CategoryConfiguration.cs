@@ -12,7 +12,9 @@ namespace Forum.Data.Configurations
 
             builder.HasMany(c => c.Posts)
                 .WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId);
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);  // Kategori silinirse postlar da silinsin
+
 
             builder.HasData(       
             new Category
