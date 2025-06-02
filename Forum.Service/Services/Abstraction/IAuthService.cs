@@ -9,7 +9,8 @@ namespace Forum.Service.Services.Abstraction
 {
     public interface IAuthService
     {
-        Task<string> RegisterAsync(RegisterDto registerDto);
-        Task<string> LoginAsync(LoginDto loginDto);
+        Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
+        Task<TokenResponseDto> RefreshTokenAsync(string refreshToken);
+
     }
 }

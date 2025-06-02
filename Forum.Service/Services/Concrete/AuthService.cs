@@ -2,43 +2,87 @@
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace Forum.Service.Services.Concrete
 {
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> userManager;
+        private readonly IConfiguration configuration;
 
-        public AuthService(UserManager<AppUser> userManager)
+        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
+            this.configuration = configuration;
         }
-        public Task<string> LoginAsync(LoginDto loginDto)
+        public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null || !await userManager.CheckPasswordAsync(user, loginDto.Password))
+                return null;
+
+            var token = await CreateTokenAsync(user);
+            return token;
         }
 
-        public async Task<string> RegisterAsync(RegisterDto registerDto)
+        public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken)
         {
-            AppUser User = new()
+            var user = userManager.Users.FirstOrDefault(u => u.RefreshToken == refreshToken &&
+                                                          u.ResfreshTokenExpiryTime > DateTime.UtcNow);
+            if (user == null)
+                return null;
+
+            var token = await CreateTokenAsync(user);
+            return token;
+        }
+
+        private async Task<TokenResponseDto> CreateTokenAsync(AppUser user)
+        {
+            var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]));
+            var token = new JwtSecurityToken(
+                issuer: configuration["Jwt:Issuer"],
+                audience: configuration["Jwt:Audience"],
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(configuration["Jwt:AccessTokenExpirationMinutes"])),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+            );
+
+            var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var refreshToken = GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.ResfreshTokenExpiryTime = DateTime.UtcNow.AddDays(Convert.ToDouble(configuration["Jwt:RefreshTokenExpirationDays"]));
+            await userManager.UpdateAsync(user);
+
+            return new TokenResponseDto
             {
-                UserName = registerDto.UserName,
-                Email = registerDto.Email,
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ExpireDate = token.ValidTo
             };
+        }
 
-            IdentityResult result = await userManager.CreateAsync(User,registerDto.Password);
-            if (!result.Succeeded)
-            {
-                return string.Join(" | ", result.Errors.Select(e => e.Description));
-            }
-            return "kayit silemi basarili";
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }

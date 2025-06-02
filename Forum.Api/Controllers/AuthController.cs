@@ -1,5 +1,6 @@
 ﻿using Forum.Core.DTOs.Auth;
 using Forum.Service.Services.Abstraction;
+using Forum.Service.Services.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers
@@ -16,10 +17,23 @@ namespace Forum.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var result = await authService.RegisterAsync(registerDto);
-            return Ok(result);
+            var token = await authService.LoginAsync(dto);
+            if (token == null)
+                return Unauthorized();
+
+            return Ok(token);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Refresh([FromBody] string refreshToken)
+        {
+            var token = await authService.RefreshTokenAsync(refreshToken);
+            if (token == null)
+                return Unauthorized();
+
+            return Ok(token);
         }
     }
 }
