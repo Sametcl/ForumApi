@@ -35,5 +35,11 @@ namespace Forum.Api.Controllers
 
             return Ok(token);
         }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterDto registerDto)
+        {
+            await authService.RegisterAsync(registerDto);
+            return Ok("Kayit basarili");
+        }
     }
 }

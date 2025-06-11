@@ -11,6 +11,6 @@ namespace Forum.Service.Services.Abstraction
     {
         Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
         Task<TokenResponseDto> RefreshTokenAsync(string refreshToken);
-
+        Task RegisterAsync(RegisterDto registerDto);
     }
 }

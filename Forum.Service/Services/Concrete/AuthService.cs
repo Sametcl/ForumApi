@@ -16,11 +16,13 @@ namespace Forum.Service.Services.Concrete
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> userManager;
+        private readonly RoleManager<AppRole> roleManager;
         private readonly IConfiguration configuration;
 
-        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration)
+        public AuthService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.configuration = configuration;
         }
         public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
@@ -42,6 +44,31 @@ namespace Forum.Service.Services.Concrete
 
             var token = await CreateTokenAsync(user);
             return token;
+        }
+
+        public async Task RegisterAsync(RegisterDto registerDto)
+        {
+            var user = new AppUser
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                UserName = registerDto.UserName,
+            };
+            IdentityResult result = await userManager.CreateAsync(user, registerDto.Password);
+            if (result.Succeeded)
+            {
+                // Rol yoksa oluştur
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new AppRole { Name = "User", NormalizedName = "USER" });
+                }
+                await userManager.AddToRoleAsync(user, "User");
+            }
+            else
+            {
+                throw new Exception("Kullanici kayit olusturulurken bir hata olustu! ");
+            }
         }
 
         private async Task<TokenResponseDto> CreateTokenAsync(AppUser user)
@@ -76,7 +103,10 @@ namespace Forum.Service.Services.Concrete
                 ExpireDate = token.ValidTo
             };
         }
-
+        //GetPrincipalFromExpiredToken yapisi kurulacak 
+        // apiresponse degeri dondurelecek 
+        //role ekleeme userlari rolleriyle listeleme 
+        //register service kurulacak 
         private string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
