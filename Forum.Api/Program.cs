@@ -25,10 +25,10 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
                 .AddDefaultTokenProviders();
 
 
+builder.Services.AddSwaggerWithJwt();
 builder.Services.AddJwtAuthentication(builder.Configuration);//jwt conf
+builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿using Forum.Core.DTOs.Posts;
 using Forum.Service.Services.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

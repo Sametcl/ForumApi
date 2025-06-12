@@ -1,6 +1,7 @@
 ﻿using Forum.Core.DTOs.Auth;
 using Forum.Service.Services.Abstraction;
 using Forum.Service.Services.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers
@@ -20,9 +21,6 @@ namespace Forum.Api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             var token = await authService.LoginAsync(dto);
-            if (token == null)
-                return Unauthorized();
-
             return Ok(token);
         }
 
@@ -40,6 +38,13 @@ namespace Forum.Api.Controllers
         {
             await authService.RegisterAsync(registerDto);
             return Ok("Kayit basarili");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetSecureData()
+        {
+            return Ok("Burası sadece token ile erişilebilir!");
         }
     }
 }

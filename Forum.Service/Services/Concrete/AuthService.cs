@@ -1,4 +1,5 @@
 ﻿using Forum.Core.DTOs.Auth;
+using Forum.Core.Exceptions.CustomExceptions;
 using Forum.Entity.Entities;
 using Forum.Service.Services.Abstraction;
 using Microsoft.AspNetCore.Identity;
@@ -28,8 +29,10 @@ namespace Forum.Service.Services.Concrete
         public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await userManager.FindByEmailAsync(loginDto.Email);
-            if (user == null || !await userManager.CheckPasswordAsync(user, loginDto.Password))
-                return null;
+            var passwordValid = user != null && await userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!passwordValid)
+                throw new BadRequestException("E-posta veya şifre hatalı.");
 
             var token = await CreateTokenAsync(user);
             return token;
@@ -55,22 +58,22 @@ namespace Forum.Service.Services.Concrete
                 Email = registerDto.Email,
                 UserName = registerDto.UserName,
             };
-            IdentityResult result = await userManager.CreateAsync(user, registerDto.Password);
-            if (result.Succeeded)
-            {
-                // Rol yoksa oluştur
-                if (!await roleManager.RoleExistsAsync("User"))
-                {
-                    await roleManager.CreateAsync(new AppRole { Name = "User", NormalizedName = "USER" });
-                }
-                await userManager.AddToRoleAsync(user, "User");
-            }
-            else
-            {
-                throw new Exception("Kullanici kayit olusturulurken bir hata olustu! ");
-            }
-        }
 
+            var result = await userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded)
+            {
+                var errorMessages = string.Join(" | ", result.Errors.Select(e => $"{e.Description}"));
+                throw new BadRequestException(errorMessages);
+            }
+
+            if (!await roleManager.RoleExistsAsync("User"))
+            {
+                await roleManager.CreateAsync(new AppRole { Name = "User" });
+            }
+
+            await userManager.AddToRoleAsync(user, "User");
+        }
         private async Task<TokenResponseDto> CreateTokenAsync(AppUser user)
         {
             var authClaims = new List<Claim>

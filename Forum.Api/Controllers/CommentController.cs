@@ -1,11 +1,13 @@
 ﻿using Forum.Core.DTOs.Comments;
 using Forum.Service.Services.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentService;
@@ -16,6 +18,7 @@ namespace Forum.Api.Controllers
         }
 
         [HttpPost]
+       
         public async Task<IActionResult> CreateComment(CommentCreateDto commentCreateDto)
         {
             await commentService.CreateCommentAsync(commentCreateDto);
